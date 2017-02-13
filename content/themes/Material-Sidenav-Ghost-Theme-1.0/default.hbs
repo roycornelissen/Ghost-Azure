@@ -12,6 +12,7 @@
         {{!CSS}}
         <link type="text/css" rel="stylesheet" href="{{asset "assets/css/materialize.min.css"}}" media="screen,projection">
         <link type="text/css" rel="stylesheet" href="{{asset "assets/css/style.min.css"}}" media="screen,projection">  
+        <link href="/core/shared/prism.css" rel="stylesheet" />
         {{! Social Meta Tags If you need..}}
         {{! Ghost header injection }}
         {{ghost_head}}
@@ -98,6 +99,7 @@ s.setAttribute('data-timestamp', +new Date());
 (d.head || d.body).appendChild(s);
 })();
 </script>
+<script src="/core/shared/prism.js"></script>
 <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
     </body>
 </html>
