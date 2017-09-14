@@ -13,6 +13,7 @@ function getImageDimensions(metaData) {
     var fetch = {
             coverImage: getCachedImageSizeFromUrl(metaData.coverImage.url),
             authorImage: getCachedImageSizeFromUrl(metaData.authorImage.url),
+            ogImage: getCachedImageSizeFromUrl(metaData.ogImage.url),
             logo: getCachedImageSizeFromUrl(metaData.blog.logo.url)
         };
 
@@ -22,6 +23,7 @@ function getImageDimensions(metaData) {
         imageObj = {
             coverImage: resolve.coverImage,
             authorImage: resolve.authorImage,
+            ogImage: resolve.ogImage,
             logo: resolve.logo
         };
 
@@ -30,13 +32,21 @@ function getImageDimensions(metaData) {
                 // We have some restrictions for publisher.logo:
                 // The image needs to be <=600px wide and <=60px high (ideally exactly 600px x 60px).
                 // Unless we have proper image-handling (see https://github.com/TryGhost/Ghost/issues/4453),
-                // we will not output an ImageObject if the logo doesn't fit in the dimensions.
+                // we will fake it in some cases or not produce an imageObject at all.
                 if (value === 'logo') {
                     if (key.height <= 60 && key.width <= 600) {
                         _.assign(metaData.blog[value], {
                             dimensions: {
                                 width: key.width,
                                 height: key.height
+                            }
+                        });
+                    } else if (key.width === key.height) {
+                        // CASE: the logo is too large, but it is a square. We fake it...
+                        _.assign(metaData.blog[value], {
+                            dimensions: {
+                                width: 60,
+                                height: 60
                             }
                         });
                     }

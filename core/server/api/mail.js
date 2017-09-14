@@ -8,10 +8,8 @@ var Promise       = require('bluebird'),
     Models        = require('../models'),
     utils         = require('./utils'),
     notifications = require('./notifications'),
-    docName       = 'mail',
     i18n          = require('../i18n'),
-    mode          = process.env.NODE_ENV,
-    testing       = mode !== 'production' && mode !== 'development',
+    docName       = 'mail',
     mailer,
     apiMail;
 
@@ -19,7 +17,7 @@ var Promise       = require('bluebird'),
  * Send mail helper
  */
 function sendMail(object) {
-    if (!(mailer instanceof mail.GhostMailer) || testing) {
+    if (!(mailer instanceof mail.GhostMailer)) {
         mailer = new mail.GhostMailer();
     }
 
@@ -31,14 +29,14 @@ function sendMail(object) {
                     message: [
                         i18n.t('warnings.index.unableToSendEmail'),
                         i18n.t('common.seeLinkForInstructions',
-                            {link: '<a href=\'http://support.ghost.org/mail\' target=\'_blank\'>http://support.ghost.org/mail</a>'})
+                            {link: '<a href=\'https://docs.ghost.org/v1/docs/mail-config\' target=\'_blank\'>Checkout our mail configuration docs!</a>'})
                     ].join(' ')
                 }]},
                 {context: {internal: true}}
             );
         }
 
-        return Promise.reject(new errors.EmailError(err.message));
+        return Promise.reject(new errors.EmailError({err: err}));
     });
 }
 

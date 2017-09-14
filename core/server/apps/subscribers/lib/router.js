@@ -2,6 +2,7 @@ var path                = require('path'),
     express             = require('express'),
     _                   = require('lodash'),
     subscribeRouter     = express.Router(),
+    bodyParser          = require('body-parser'),
 
     // Dirty requires
     api                 = require('../../../api'),
@@ -12,20 +13,24 @@ var path                = require('path'),
     setResponseContext  = require('../../../controllers/frontend/context');
 
 function controller(req, res) {
-    var defaultView = path.resolve(__dirname, 'views', 'subscribe.hbs'),
-        paths = templates.getActiveThemePaths(req.app.get('activeTheme')),
+    var templateName = 'subscribe',
+        defaultTemplate = path.resolve(__dirname, 'views', templateName + '.hbs'),
         data = req.body;
 
     setResponseContext(req, res);
-    if (paths.hasOwnProperty('subscribe.hbs')) {
-        return res.render('subscribe', data);
-    } else {
-        return res.render(defaultView, data);
-    }
+
+    return res.render(templates.pickTemplate(templateName, defaultTemplate), data);
 }
 
+/**
+ * Takes care of sanitizing the email input.
+ * XSS prevention.
+ * For success cases, we don't have to worry, because then the input contained a valid email address.
+ */
 function errorHandler(error, req, res, next) {
     /*jshint unused:false */
+
+    req.body.email = '';
 
     if (error.statusCode !== 404) {
         res.locals.error = error;
@@ -45,13 +50,13 @@ function honeyPot(req, res, next) {
     next();
 }
 
-function validateUrl(url) {
-    return validator.isEmptyOrURL(url) ? url : '';
+function santizeUrl(url) {
+    return validator.isEmptyOrURL(url || '') ? url : '';
 }
 
 function handleSource(req, res, next) {
-    req.body.subscribed_url = validateUrl(req.body.location);
-    req.body.subscribed_referrer = validateUrl(req.body.referrer);
+    req.body.subscribed_url = santizeUrl(req.body.location);
+    req.body.subscribed_referrer = santizeUrl(req.body.referrer);
     delete req.body.location;
     delete req.body.referrer;
 
@@ -76,9 +81,9 @@ function storeSubscriber(req, res, next) {
     req.body.status = 'subscribed';
 
     if (_.isEmpty(req.body.email)) {
-        return next(new errors.ValidationError('Email cannot be blank.'));
+        return next(new errors.ValidationError({message: 'Email cannot be blank.'}));
     } else if (!validator.isEmail(req.body.email)) {
-        return next(new errors.ValidationError('Invalid email.'));
+        return next(new errors.ValidationError({message: 'Invalid email.'}));
     }
 
     return api.subscribers.add({subscribers: [req.body]}, {context: {external: true}})
@@ -99,6 +104,7 @@ subscribeRouter.route('/')
         controller
     )
     .post(
+        bodyParser.urlencoded({extended: true}),
         honeyPot,
         handleSource,
         storeSubscriber,
@@ -110,3 +116,4 @@ subscribeRouter.use(errorHandler);
 
 module.exports = subscribeRouter;
 module.exports.controller = controller;
+module.exports.storeSubscriber = storeSubscriber;

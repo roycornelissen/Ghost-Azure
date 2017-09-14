@@ -1,38 +1,69 @@
-# [Ghost (0.9.0)](https://github.com/TryGhost/Ghost) [![Deploy to Azure](http://azuredeploy.net/deploybutton.png)](https://azuredeploy.net/)
+<a href="https://github.com/TryGhost/Ghost"><img src="https://cloud.githubusercontent.com/assets/120485/18661790/cf942eda-7f17-11e6-9eb6-9c65bfc2abd8.png" alt="Ghost" /></a>
+<a href="https://travis-ci.org/TryGhost/Ghost"><img align="right" src="https://travis-ci.org/TryGhost/Ghost.svg?branch=master" alt="Build status" /></a>
 
-Want to install Ghost on Azure? Just click the 'Deploy to Azure' button and you're well on your way to have a Ghost Blog running within a minute or two. Made with :heart: for Ghost by Microsoft.
+The project is maintained by a non-profit organisation called the **Ghost Foundation**, along with an amazing group of independent [contributors](https://github.com/TryGhost/Ghost/contributors). We're trying to make publishing software that changes the shape of online journalism.
 
-**Note: The deployment will most likely fail if you're running in a Free or Shared App Service Plan.  This is due to NPM using more resources than the Azure [sandbox](https://github.com/projectkudu/kudu/wiki/Azure-Web-App-sandbox) allows.  To work around this, deploy into a Basic or higher plan and then scale down if needed.  More information in [#30](https://github.com/felixrieseberg/Ghost-Azure/issues/30#issuecomment-217028469) and [npm/npm#7200](https://github.com/npm/npm/issues/7200).** 
+- [Ghost.org](https://ghost.org)
+- [Supported Node Versions](https://docs.ghost.org/v1/docs/supported-node-versions)
+- [Latest Release](https://ghost.org/developers/)
+- [Help & Support](http://help.ghost.org/)
+- [Theme Docs](http://themes.ghost.org/v1/)
+- [API Docs](https://api.ghost.org/)
+- [Contributing Guide](https://docs.ghost.org/v1/docs/contributing)
+- [Developer Blog](http://dev.ghost.org)
+- [Self-hoster Docs](http://docs.ghost.org/v1/)
 
-**Note: After deployment, Ghost will continue setup - resulting in your brand new website staying blank on the very first load. Please give your website a solid minute of time. It will appear like the site isn't loading, but in reality, it's just creating your database in the background. This only happens the very first time you load your website - simply refresh, you'll see that everything worked well!**
+**NOTE: If you’re stuck, can’t get something working or need some help, please head on over and join our [Slack community](https://ghost.org/slack/) rather than opening an issue.**
 
-If you're interested in hosting your blog's images on Azure Blob Storage, check out Tommy Parnell's [ghost-azure-storage module](https://github.com/tparnell8/ghost-azurestorage) that plugs directly into Ghost.
+&nbsp;
 
-#### Custom Domain
-Directly after installation, Ghost will assume that your blog runs at `http://sitename.azurewebsites.net`. Should you switch to a custom domain, please inform Ghost about that change - you can do by setting the App Setting `websiteUrl` and restarting your website.
+![Ghost](https://user-images.githubusercontent.com/120485/28764244-344050c0-75d5-11e7-9314-45bc4177164e.png)
 
-## Ghost
-![Ghost Screenshot](https://cloud.githubusercontent.com/assets/120485/4828504/9e832764-5f80-11e4-8ac1-0332bcc67a35.png)
+&nbsp;
 
-Ghost is a free, open, simple blogging platform that's available to anyone who wants to use it. Lovingly created and maintained by [John O'Nolan](http://twitter.com/JohnONolan) + [Hannah Wolfe](http://twitter.com/ErisDS) + an amazing group of [contributors](https://github.com/TryGhost/Ghost/contributors).
+# Hosting a live Ghost site
 
-Visit the project's website at <http://ghost.org> &bull; docs on <http://support.ghost.org>.
+<a href="https://ghost.org/pricing"><img src="https://cloud.githubusercontent.com/assets/120485/18662071/f30da886-7f18-11e6-90f2-42c0ade79fd1.png" alt="Ghost(Pro)" /></a>
 
-## Ghost-Azure
+The easiest way to deploy Ghost is with our official **[Ghost(Pro)](https://ghost.org/pricing/)** managed service. You can have a fresh instance up and running in a couple of clicks with a worldwide CDN, backups, security and maintenance all done for you.
 
-Ghost Azure is a project that maintains the minimum configuration required to run ghost in azure Web Apps. This project does not contain alterations to ghost itself.  
+Not only will it save you hours of maintenance per month, but all revenue goes to the Ghost Foundation, which funds the maintenance and further development of Ghost itself. So you’ll be supporting open source software *and* getting a great service **at the same time**! Talk about win/win. :trophy:
 
-## Running Locally
+## Self-Hosters
 
-To run ghost locally run npm install then simply add websiteUrl, PORT, and NODE_ENV to your environment variables and run npm start. By default NODE_ENV will default to development, but the process that runs in azure runs with the value of production. If you decide to run NODE_ENV as production, you will probably want to turn off forceAdminSSL in config.js otherwise trying to access admin will default to redirecting you to https, and you won't have a valid SSL cert locally. The websiteUrl can be something as simple as `http://localhost` and the PORT variable should be the port you wish the instance to listen on.
+Other options are also available if you prefer playing around with servers by yourself, of course. The freedom of choice is in your hands.
 
-## Upgrading Ghost
-The most comfortable way to update is to synchronize your Ghost installation with this respository. When you hit the deploy button, Azure will be aware of the source - and allow you to synchronize content. When you synchronize a deployment, only files checked into the repository are updated - nothing is deleted. If you didn't change the Ghost source code (but instead just created posts, uploaded pictures, or added themes), simply click the "Sync" button in the Azure Management Portal:
+- [Self-hosting Guide](https://docs.ghost.org/v1/docs/getting-started-guide)
 
-![Sync Button](./docs/update.png)
 
-If you copied the files in this repository manually, you can still update with ease. See the [Ghost-Updater-Azure](https://github.com/felixrieseberg/Ghost-Updater-Azure) project for details.
+# Theme Developers
 
-## Copyright & License
+If you are developing a Ghost theme for your own site or creating themes for others to use we recommend installing Ghost on your own local machine. Luckily we have a brand new Ghost CLI to make this really easy 😄
 
-Ghost is Copyright (c) 2013-2015 Ghost Foundation - Released under the [MIT license](LICENSE).
+- [Installing Ghost via the CLI](https://docs.ghost.org/v1/docs/install-local)
+- [Theme Developer Docs](http://themes.ghost.org)
+
+
+# Contributors & Advanced Developers
+
+For anyone wishing to contribute to Ghost or to hack/customise core files we recommend following our development setup guides:
+
+- [General Contributor Guide](https://docs.ghost.org/v1/docs/contributing)
+- [Developer Setup Instructions](https://docs.ghost.org/v1/docs/working-with-ghost)
+- [Admin Client development guide](https://docs.ghost.org/v1/docs/working-with-the-admin-client)
+
+
+# Staying Up to Date
+
+When a new version of Ghost comes out, you'll want to look over these [upgrade instructions](https://docs.ghost.org/v1/docs/upgrade) for what to do next.
+
+You can talk to other Ghost users and developers in our [public Slack team](https://ghost.org/slack/) (it's pretty awesome).
+
+New releases are announced on the [dev blog](http://dev.ghost.org/tag/releases/). You can subscribe by email or follow [@TryGhost_Dev](https://twitter.com/tryghost_dev) on Twitter, if you prefer your updates bite-sized and facetious. :saxophone::turtle:
+
+&nbsp;
+
+
+# Copyright & License
+
+Copyright (c) 2013-2017 Ghost Foundation - Released under the [MIT license](LICENSE). Ghost and the Ghost Logo are trademarks of Ghost Foundation Ltd. Please see our [trademark policy](https://ghost.org/trademark/) for info on acceptable usage.

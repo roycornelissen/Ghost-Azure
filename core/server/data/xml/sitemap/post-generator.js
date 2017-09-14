@@ -1,6 +1,6 @@
 var _      = require('lodash'),
     api    = require('../../../api'),
-    config = require('../../../config'),
+    utils  = require('../../../utils'),
     BaseMapGenerator = require('./base-generator');
 
 // A class responsible for generating a sitemap from posts and keeping it updated
@@ -30,7 +30,8 @@ _.extend(PostMapGenerator.prototype, {
             filter: 'visibility:public',
             status: 'published',
             staticPages: false,
-            limit: 'all'
+            limit: 'all',
+            include: 'author'
         }).then(function (resp) {
             return resp.posts;
         });
@@ -41,7 +42,7 @@ _.extend(PostMapGenerator.prototype, {
     },
 
     getUrlForDatum: function (post) {
-        return config.urlFor('post', {post: post}, true);
+        return utils.url.urlFor('post', {post: post}, true);
     },
 
     getPriorityForDatum: function (post) {
